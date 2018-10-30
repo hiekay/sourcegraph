@@ -58,9 +58,6 @@ func (r *registryExtensionRemoteResolver) UpdatedAt() *string {
 }
 
 func (r *registryExtensionRemoteResolver) PublishedAt(context.Context) (*string, error) {
-	if r.v.IsSynthesizedLocalExtension {
-		return nil, nil
-	}
 	return strptr(r.v.PublishedAt.Format(time.RFC3339)), nil
 }
 

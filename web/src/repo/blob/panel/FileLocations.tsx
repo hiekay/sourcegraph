@@ -67,7 +67,7 @@ interface Props {
 
 interface State {
     /**
-     * Locations (inside files identified by LSP-style git:// URIs) to display, or an error if they failed to load.
+     * Locations (inside files identified by git:// URIs) to display, or an error if they failed to load.
      * Undefined while loading.
      */
     locationsOrError?: Location[] | ErrorLike
@@ -79,7 +79,7 @@ interface State {
 }
 
 /**
- * Displays a flat list of file excerpts. For a tree view, use FileLocationsTree.
+ * Displays a flat list of file excerpts.
  */
 export class FileLocations extends React.PureComponent<Props, State> {
     public state: State = {
