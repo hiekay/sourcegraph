@@ -174,7 +174,7 @@ func main() {
 			bk.Cmd("popd"))
 	}
 
-	if os.Getenv("BUILDKITE_BRANCH") == "bext/release" {
+	if os.Getenv("BUILDKITE_BRANCH") == "bext/release" || os.Getenv("BUILDKITE_BRANCH") == "ff-release" {
 		addBrowserExtensionReleaseSteps()
 	}
 
