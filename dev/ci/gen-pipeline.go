@@ -173,20 +173,7 @@ func main() {
 	}
 
 	if os.Getenv("BUILDKITE_BRANCH") == "bext/release" {
-		pipeline.AddStep(":chrome:",
-			bk.Env("FORCE_COLOR", "1"),
-			bk.Env("DISPLAY", ":99"),
-			bk.Cmd("Xvfb :99 &"),
-			bk.Cmd("yarn --frozen-lockfile --network-timeout 60000"),
-			bk.Cmd("pushd client/browser"),
-			bk.Cmd("yarn -s run build"),
-			bk.Cmd("yarn -s run test:ci"),
-			bk.Cmd("yarn -s run test:e2e"),
-			bk.Cmd("USE_EXTENSIONS=true yarn -s run build"),
-			bk.Cmd("yarn -s run test:ci"),
-			bk.Cmd("yarn -s run test:e2e"),
-			bk.Cmd("yarn -s run release"),
-			bk.Cmd("popd"))
+		addBrowserExtensionReleaseSteps()
 	}
 
 	pipeline.AddWait()
