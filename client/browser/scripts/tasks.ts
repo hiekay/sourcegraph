@@ -91,6 +91,7 @@ function writeManifest(env, browser, writeDir): void {
 
     if (browser === 'firefox') {
         manifest.permissions.push('<all_urls>')
+        manifest.name = 'Sourcegraph for Firefox'
         delete manifest.storage
     }
 

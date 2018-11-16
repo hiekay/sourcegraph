@@ -126,6 +126,52 @@ func main() {
 
 	pipeline.AddWait()
 
+	addBrowserExtensionReleaseSteps := func() {
+		// Run e2e tests
+		pipeline.AddStep(":chromium:",
+			bk.Env("FORCE_COLOR", "1"),
+			bk.Env("DISPLAY", ":99"),
+			bk.Cmd("Xvfb :99 &"),
+			bk.Cmd("yarn --frozen-lockfile --network-timeout 60000"),
+			bk.Cmd("pushd client/browser"),
+			bk.Cmd("yarn -s run build"),
+			bk.Cmd("yarn -s run test:ci"),
+			bk.Cmd("yarn -s run test:e2e"),
+		)
+
+		// Run e2e tests with extensions enabled
+		//
+		// TODO: Remove this step when extensions are enabled by default
+		pipeline.AddStep(":chromium:",
+			bk.Env("FORCE_COLOR", "1"),
+			bk.Env("DISPLAY", ":99"),
+			bk.Cmd("Xvfb :99 &"),
+			bk.Cmd("yarn --frozen-lockfile --network-timeout 60000"),
+			bk.Cmd("pushd client/browser"),
+			bk.Cmd("USE_EXTENSIONS=true yarn -s run build"),
+			bk.Cmd("yarn -s run test:ci"),
+			bk.Cmd("yarn -s run test:e2e"),
+		)
+
+		pipeline.AddWait()
+
+		// Release to the Chrome Webstore
+		pipeline.AddStep(":chrome:",
+			bk.Cmd("yarn --frozen-lockfile --network-timeout 60000"),
+			bk.Cmd("pushd client/browser"),
+			bk.Cmd("yarn -s run build"),
+			bk.Cmd("yarn release:chrome"),
+			bk.Cmd("popd"))
+
+		// Build and self sign the FF extension and upload it to ...
+		pipeline.AddStep(":firefox:",
+			bk.Cmd("yarn --frozen-lockfile --network-timeout 60000"),
+			bk.Cmd("pushd client/browser"),
+			bk.Cmd("yarn -s run build"),
+			bk.Cmd("yarn release:chrome"),
+			bk.Cmd("popd"))
+	}
+
 	if os.Getenv("BUILDKITE_BRANCH") == "bext/release" {
 		pipeline.AddStep(":chrome:",
 			bk.Env("FORCE_COLOR", "1"),

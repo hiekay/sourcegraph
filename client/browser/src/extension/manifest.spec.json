@@ -36,7 +36,7 @@
   },
   "applications": {
     "gecko": {
-      "id": "firefox-extension@sourcegraph.com"
+      "id": "sourcegraph-for-firefox@sourcegraph.com"
     }
   },
   "dev": {
