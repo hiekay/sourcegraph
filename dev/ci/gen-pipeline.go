@@ -159,6 +159,7 @@ func main() {
 
 		// Release to the Chrome Webstore
 		// pipeline.AddStep(":chrome:",
+		// bk.Env("FORCE_COLOR", "1"),
 		// 	bk.Cmd("yarn --frozen-lockfile --network-timeout 60000"),
 		// 	bk.Cmd("pushd client/browser"),
 		// 	bk.Cmd("yarn -s run build"),
@@ -167,6 +168,7 @@ func main() {
 
 		// Build and self sign the FF extension and upload it to ...
 		pipeline.AddStep(":firefox:",
+			bk.Env("FORCE_COLOR", "1"),
 			bk.Cmd("yarn --frozen-lockfile --network-timeout 60000"),
 			bk.Cmd("pushd client/browser"),
 			bk.Cmd("yarn -s run build"),
