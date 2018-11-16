@@ -22,7 +22,7 @@ export interface Selection extends Range {
 /** The plain properties of a {@link module:sourcegraph.Location}, without methods and accessors. */
 export interface Location {
     uri: string
-    range?: Range
+    range: Range
 }
 
 /** The plain properties of a {@link module:sourcegraph.Definition}, without methods and accessors. */
